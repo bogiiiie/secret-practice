@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon API Key Practice</title>
+    <title>Pokemon from GitHub Secret</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,133 +13,71 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
-        
         .container {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 30px;
             backdrop-filter: blur(10px);
-        }
-        
-        h1 {
             text-align: center;
-            margin-bottom: 30px;
         }
-        
-        .secret-box {
+        .pokemon-image {
+            width: 300px;
+            height: 300px;
+        }
+        .info {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .secret-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .secret-value {
-            font-family: monospace;
-            font-size: 18px;
-            word-break: break-all;
-            background: rgba(0,0,0,0.5);
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        
-        input {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border: none;
-            border-radius: 10px;
-            outline: none;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-        }
-        
-        button {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        
-        button:hover {
-            background: #ff5252;
-        }
-        
-        .pokemon-card {
-            background: white;
-            color: #333;
-            border-radius: 20px;
             padding: 20px;
-            text-align: center;
             margin-top: 20px;
-            display: none;
+            text-align: left;
         }
-        
-        .pokemon-card img {
-            width: 200px;
-            height: 200px;
-        }
-        
-        .pokemon-name {
-            font-size: 32px;
-            font-weight: bold;
+        .info p {
+            font-size: 18px;
             margin: 10px 0;
         }
-        
-        .error {
-            background: #ff6b6b;
-            color: white;
-            text-align: center;
-            padding: 20px;
+        .secret-note {
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
+            padding: 10px;
             margin-top: 20px;
-            display: none;
+            font-size: 12px;
         }
-        
-        .success {
-            background: #51cf66;
-            color: white;
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 20px;
+        }
+        .error {
+            color: #ff6b6b;
             text-align: center;
             padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🔐 API Key Practice</h1>
-        
-        <div class="secret-box">
-            <div class="secret-label">🎯 Your API Key = Pokemon Name</div>
-            <div class="secret-value">
-                https://pokeapi.co/api/v2/pokemon/<span id="currentKey">???</span>
-            </div>
+        <h1>🔐 Pokemon from GitHub Secret</h1>
+        <div class="secret-note">
+            🔑 This Pokemon name came from GitHub Secrets (hidden as ***)
         </div>
         
-        <input type="text" id="apiKeyInput" placeholder="Enter your API Key (Pokemon name like: pikachu, charizard, mewtwo)" />
-        <button onclick="testApiKey()">🔓 Test API Key</button>
+        <div id="loading" class="loading">Loading Pokemon data... ⚡</div>
+        <div id="error" class="error" style="display:none;"></div>
         
-        <div id="successMessage" class="success"></div>
-        <div id="errorMessage" class="error"></div>
-        
-        <div class="pokemon-card" id="pokemonCard">
-            <img id="pokemonImage" src="" alt="Pokemon">
-            <div class="pokemon-name" id="pokemonNameDisplay"></div>
-            <div id="pokemonData"></div>
+        <div id="pokemonContent" style="display:none;">
+            <img id="pokemonImage" class="pokemon-image" src="" alt="Pokemon">
+            <h1 id="pokemonName"></h1>
+            <div class="info">
+                <p>📏 Height: <span id="height"></span> meters</p>
+                <p>⚖️ Weight: <span id="weight"></span> kg</p>
+                <p>🔢 Pokedex ID: #<span id="id"></span></p>
+                <p>⭐ Base Experience: <span id="baseXp"></span></p>
+                <p>🎯 Abilities: <span id="abilities"></span></p>
+                <p>💪 Types: <span id="types"></span></p>
+            </div>
+            <div class="secret-note">
+                🎉 Data fetched using GitHub Secret (hidden in logs)
+            </div>
         </div>
     </div>
 

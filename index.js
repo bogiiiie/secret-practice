@@ -1,73 +1,46 @@
-async function testApiKey() {
-    const apiKey = document.getElementById('apiKeyInput').value.toLowerCase().trim();
+// This file runs in GitHub Actions AND in the browser
+// In GitHub Actions, process.env.POKEMON_NAME exists
+// In browser, we need to get the value from the HTML or API
+
+async function loadPokemon() {
+    const pokemonName = document.body.dataset.pokemonName;
     
-    document.getElementById('currentKey').textContent = apiKey || '???';
-    
-    if (!apiKey) {
-        showError('❌ Please enter an API Key (Pokemon name)!');
+    if (!pokemonName) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error').textContent = 'No Pokemon name found. Run GitHub Actions first!';
         return;
     }
     
-    document.getElementById('pokemonCard').style.display = 'none';
-    document.getElementById('successMessage').style.display = 'none';
-    document.getElementById('errorMessage').style.display = 'none';
-    
     try {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${apiKey}`);
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
         
         if (!response.ok) {
-            throw new Error(`Invalid API Key: "${apiKey}" is not a valid Pokemon`);
+            throw new Error(`Pokemon "${pokemonName}" not found`);
         }
         
         const pokemon = await response.json();
         
-        showSuccess(`✅ API Key "${apiKey}" is VALID! Access granted!`);
-        displayPokemon(pokemon, apiKey);
+        // Display the Pokemon data
+        document.getElementById('pokemonImage').src = pokemon.sprites.other['official-artwork'].front_default;
+        document.getElementById('pokemonName').textContent = pokemon.name.toUpperCase();
+        document.getElementById('height').textContent = pokemon.height / 10;
+        document.getElementById('weight').textContent = pokemon.weight / 10;
+        document.getElementById('id').textContent = pokemon.id;
+        document.getElementById('baseXp').textContent = pokemon.base_experience;
+        document.getElementById('abilities').textContent = pokemon.abilities.map(a => a.ability.name).join(', ');
+        document.getElementById('types').textContent = pokemon.types.map(t => t.type.name).join(', ');
+        
+        // Show content, hide loading
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('pokemonContent').style.display = 'block';
         
     } catch (error) {
-        showError(`❌ API Key "${apiKey}" is INVALID! Try: pikachu, charizard, mewtwo`);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error').textContent = `Error: ${error.message}`;
     }
 }
 
-function displayPokemon(pokemon, apiKey) {
-    document.getElementById('pokemonImage').src = pokemon.sprites.other['official-artwork'].front_default;
-    document.getElementById('pokemonNameDisplay').textContent = pokemon.name.toUpperCase();
-    
-    const details = `
-        <div style="margin-top: 20px;">
-            <p>📏 Height: ${pokemon.height / 10}m</p>
-            <p>⚖️ Weight: ${pokemon.weight / 10}kg</p>
-            <p>🔢 ID: #${pokemon.id}</p>
-            <p>🎯 Abilities: ${pokemon.abilities.map(a => a.ability.name).join(', ')}</p>
-        </div>
-    `;
-    
-    document.getElementById('pokemonData').innerHTML = details;
-    document.getElementById('pokemonCard').style.display = 'block';
-}
-
-function showSuccess(message) {
-    const successDiv = document.getElementById('successMessage');
-    successDiv.textContent = message;
-    successDiv.style.display = 'block';
-    setTimeout(() => {
-        successDiv.style.display = 'none';
-    }, 3000);
-}
-
-function showError(message) {
-    const errorDiv = document.getElementById('errorMessage');
-    errorDiv.textContent = message;
-    errorDiv.style.display = 'block';
-    setTimeout(() => {
-        errorDiv.style.display = 'none';
-    }, 3000);
-}
-
-document.getElementById('apiKeyInput').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        testApiKey();
-    }
-});
-
-console.log("API Key Tester Ready! Your 'API Key' is the Pokemon name!");
+// Start loading when page loads
+loadPokemon();
