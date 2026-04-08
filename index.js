@@ -1,9 +1,11 @@
-// This file runs in GitHub Actions AND in the browser
-// In GitHub Actions, process.env.POKEMON_NAME exists
-// In browser, we need to get the value from the HTML or API
+// This file runs in the browser
+// The Pokemon name is injected into <body data-pokemon-name="...">
 
 async function loadPokemon() {
+    // Get Pokemon name from body data attribute
     const pokemonName = document.body.dataset.pokemonName;
+    
+    console.log("Loading Pokemon:", pokemonName);
     
     if (!pokemonName) {
         document.getElementById('loading').style.display = 'none';
@@ -13,7 +15,7 @@ async function loadPokemon() {
     }
     
     try {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`);
         
         if (!response.ok) {
             throw new Error(`Pokemon "${pokemonName}" not found`);
@@ -42,5 +44,9 @@ async function loadPokemon() {
     }
 }
 
-// Start loading when page loads
-loadPokemon();
+// Load Pokemon when page is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadPokemon);
+} else {
+    loadPokemon();
+}
