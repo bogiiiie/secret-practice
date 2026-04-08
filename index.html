@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon API Key Practice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .secret-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .secret-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .secret-value {
+            font-family: monospace;
+            font-size: 18px;
+            word-break: break-all;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background: #ff5252;
+        }
+        
+        .pokemon-card {
+            background: white;
+            color: #333;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .pokemon-card img {
+            width: 200px;
+            height: 200px;
+        }
+        
+        .pokemon-name {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .error {
+            background: #ff6b6b;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .success {
+            background: #51cf66;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 API Key Practice</h1>
+        
+        <div class="secret-box">
+            <div class="secret-label">🎯 Your API Key = Pokemon Name</div>
+            <div class="secret-value">
+                https://pokeapi.co/api/v2/pokemon/<span id="currentKey">???</span>
+            </div>
+        </div>
+        
+        <input type="text" id="apiKeyInput" placeholder="Enter your API Key (Pokemon name like: pikachu, charizard, mewtwo)" />
+        <button onclick="testApiKey()">🔓 Test API Key</button>
+        
+        <div id="successMessage" class="success"></div>
+        <div id="errorMessage" class="error"></div>
+        
+        <div class="pokemon-card" id="pokemonCard">
+            <img id="pokemonImage" src="" alt="Pokemon">
+            <div class="pokemon-name" id="pokemonNameDisplay"></div>
+            <div id="pokemonData"></div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
