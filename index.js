@@ -6,3 +6,5 @@ const apiToken = process.env.API_TOKEN;
 
 console.log("Database Password:", dbPassword);
 console.log("API Token:", apiToken);
+
+document.getElementById("myParagraph").textContent = `pass:${dbPassword}, apiToken:${apiToken}`;
